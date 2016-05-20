@@ -1,6 +1,6 @@
 # out of town scoreboard
 
-Out of town scorebaord will be a physical device that shows one team's score while a game is happening.
+Out of town scoreboard will be a physical device that shows one team's score while a game is happening.
 It is based off of the [out of town scoreboard at PNC park in pittsburgh] (https://pbs.twimg.com/media/Ci0-QtrVEAECZS2.jpg:large).
 Mine will always show the yankee score. I am a yankee fan living in pittsburgh so this is why i have chosen these teams.
 
@@ -13,5 +13,5 @@ the other unsolved challenge is the team names.
 I can simply have the board say "home" and "away". but it would be nice to have the team names on the board.
 option two is to have it say "home/away" and have a "yankee" card i can slide over the appropriate side so it would always say yankees on one side and either home or away on the other.
 or we can have cards for every team and the correct cards could be inserted but this seems tedious and the correct teams will never get put in.
-last option is some sort of display but that will bring the complexity up to high.
+last option is some sort of display but that will bring the complexity up too high.
 at least there are options.
