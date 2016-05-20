@@ -1,5 +1,76 @@
+drawField();
+
 getScores();
 var intervalID = window.setInterval(getScores, 5000);
+
+ function drawField() {
+	var canvas = document.getElementById('diamond');
+	var ctx = canvas.getContext('2d');
+
+	ctx.fillStyle = "rgb(250,250,50)";
+	ctx.beginPath();
+    ctx.moveTo(0,200);
+    ctx.lineTo(200,400);
+    ctx.lineTo(400,200);
+    ctx.lineTo(200,0);
+    ctx.fill();
+
+	ctx.fillStyle = "rgb(10,200,50)";
+	ctx.beginPath();
+    ctx.moveTo(25,200);
+    ctx.lineTo(200,375);
+    ctx.lineTo(375,200);
+    ctx.lineTo(200,25);
+    ctx.fill();
+
+    //bases
+    ctx.save();
+	makeBase(ctx);
+	ctx.translate(320,0);
+	makeBase(ctx);
+	ctx.translate(-160,-160);
+	makeBase(ctx);
+	ctx.restore();
+
+	//homeplate
+	ctx.fillStyle = "rgb(255,255,255)";
+ 	ctx.beginPath();
+    ctx.moveTo(200,400);
+    ctx.lineTo(160,360);
+    ctx.lineTo(160,330);
+    ctx.lineTo(240,330);
+    ctx.lineTo(240,360);
+    ctx.fill();
+
+    //outs
+ 	ctx.fillStyle = "rgb(255,0,30)";
+	ctx.beginPath();
+	ctx.arc(170, 170, 20, 0, 2 * Math.PI);
+	ctx.fill();
+
+		ctx.beginPath();
+	ctx.arc(230, 170, 20, 0, 2 * Math.PI);
+	ctx.fill();
+
+
+ };
+
+function makeBase (ctx){
+	//base
+	ctx.fillStyle = "rgb(255,255,255)";
+	ctx.beginPath();
+    ctx.moveTo(0,200);
+    ctx.lineTo(40,160);
+    ctx.lineTo(80,200);
+    ctx.lineTo(40,240);
+    ctx.fill();
+    //base "light"
+    ctx.beginPath();
+    ctx.fillStyle = "rgb(0,0,255)";
+	ctx.arc(39, 200, 20, 0, 2 * Math.PI);
+	ctx.fill();
+}
+
 
 function getScores() {
 	var xhttp = new XMLHttpRequest();
@@ -21,14 +92,14 @@ function getScores() {
 		month = "0" + month;
 	}
 
-	//build the utl based on today's date parts
+	//build the url based on today's date parts
 	var url = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day + "/scoreboard.xml";
 	//open the xml
 	xhttp.open("GET", url);
 	xhttp.send();
 	var indx = -1; //default value for the team we want, -1 means the team wasn't found.
 
-	var team = "pit"; //default will be yankees but for web version we can make a pulldown for all teams. this value will go here.
+	var team = "nya"; //default will be yankees but for web version we can make a pulldown for all teams. this value will go here.
 
 	xhttp.onreadystatechange = function() { //listen for the state change
 		if (xhttp.readyState == 4 && xhttp.status == 200)  //wait for ready state and 200.
