@@ -16,18 +16,17 @@ or we can have cards for every team and the correct cards could be inserted but 
 last option is some sort of display but that will bring the complexity up too high.
 at least there are options.
 
-to do:
-~~logic to get game data~~
-digital mock up:
-	~~create field~~
+- to do:
+  - ~~logic to get game data~~
+  digital mock up:
+	- ~~create field~~
 	- "wire" the "leds" up
 	- add inning and "half" lights
 	- add score digits
 	- wire up the innings
 	- wire up the score
 
-
-bug fixes: 
+- bug fixes: 
 	- games go past midnight - adjust date logic so "today's games" go to 4 in the morning.
 
 
