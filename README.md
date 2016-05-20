@@ -18,7 +18,7 @@ at least there are options.
 
 - to do:
   - ~~logic to get game data~~
-  digital mock up:
+  - digital mock up:
 	- ~~create field~~
 	- "wire" the "leds" up
 	- add inning and "half" lights
