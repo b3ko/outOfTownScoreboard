@@ -1,21 +1,124 @@
-drawField();
+//color variables
+var outsOn = "rgba(255,0,0,1)";
+var outsOff = "rgba(255,0,0,.3)";
+var innOn = "rgba(40,255,0,1)";
+var innOff = "rgba(67,217,105,.3)";
+var baseOn  = "rgba(0,0,255,1)";
+var baseOff = "rgba(0,0,255,.3)";
 
+//elements - these are what will be updated by the code - these parameters are what the code will use to set the "LED" states
+var out1 = outsOff;
+var out2 = outsOff;
+var innTop = innOn;
+var innBot = innOff;
+var base1st = baseOff;
+var base2nd = baseOff;
+var base3rd = baseOff;
+
+//for all the digits. physical version will need to be slightly different depending on what type of digit display used.
+var inningNum = "-";
+var scoreAwayNum = "-";
+var scoreHomeNum = "-"
+
+
+//init the field and all values.
+drawField();
 getScores();
+
+//refresh every 5 second
 var intervalID = window.setInterval(getScores, 5000);
 
+/****
+this funciton will draw the entire field and set all the values
+all LEDs that can be turned on or off will use the global variables.
+global variables will be updated by the getScores funciton.
+*/
  function drawField() {
 	var canvas = document.getElementById('diamond');
 	var ctx = canvas.getContext('2d');
+	drawStaticParts(ctx);
+	
+    //outs - one out
+ 	ctx.fillStyle = out1;
+	ctx.beginPath();
+	ctx.arc(170, 170, 20, 0, 2 * Math.PI);
+	ctx.fill();
+	//two outs
+	ctx.fillStyle = out2;
+	ctx.beginPath();
+	ctx.arc(230, 170, 20, 0, 2 * Math.PI);
+	ctx.fill();
 
-	ctx.fillStyle = "rgb(250,250,50)";
+	//innings:
+	ctx.fillStyle = "rgb(10,10,10)";
+	ctx.fillRect(410, 100, 130,200);
+	//borders (inning half)
+	ctx.fillStyle = "rgba(100,100,100,.3)";
+	ctx.beginPath();
+	ctx.arc(475, 50, 22, 0, 2 * Math.PI); //top
+	ctx.fill();
+	ctx.beginPath();
+	ctx.arc(475, 350, 22, 0, 2 * Math.PI); //bottom
+	ctx.fill();
+	
+	//inning half - top
+	ctx.fillStyle = innTop;
+	ctx.beginPath();
+	ctx.arc(475, 50, 20, 0, 2 * Math.PI);
+	ctx.fill();
+	// bottom 
+	ctx.fillStyle = innBot;
+	ctx.beginPath();
+	ctx.arc(475, 350, 20, 0, 2 * Math.PI);
+	ctx.fill();
+	
+	
+	//score:
+	ctx.fillStyle = "rgb(10,10,10)"; //boxes
+	//away
+	ctx.fillRect(550, 25, 225,170);
+	//home
+	ctx.fillRect(550, 200, 225,170);
+	
+	//inning
+	ctx.font = "150px sans-serif";
+	ctx.fillStyle = "yellow"; //numbers
+	ctx.fillText(inningNum, 435, 250);
+	
+	//score away
+	ctx.fillText(scoreAwayNum, 625, 160);
+	//score home
+	ctx.fillText(scoreHomeNum, 625, 340);
+ };
+
+function makeBase (ctx, baseColor){
+	//base
+	ctx.fillStyle = "rgb(255,255,255)";
+	ctx.beginPath();
+    ctx.moveTo(0,200);
+    ctx.lineTo(40,160);
+    ctx.lineTo(80,200);
+    ctx.lineTo(40,240);
+    ctx.fill();
+	
+    //base "light"
+    ctx.beginPath();
+    ctx.fillStyle = baseColor;
+	ctx.arc(39, 200, 20, 0, 2 * Math.PI);
+	ctx.fill();
+}
+
+function drawStaticParts(ctx) {
+	//basepath
+	ctx.fillStyle = "rgb(250,250,50)"; //yellow
 	ctx.beginPath();
     ctx.moveTo(0,200);
     ctx.lineTo(200,400);
     ctx.lineTo(400,200);
     ctx.lineTo(200,0);
     ctx.fill();
-
-	ctx.fillStyle = "rgb(10,200,50)";
+	//infield
+	ctx.fillStyle = "rgb(10,200,50)"; //green
 	ctx.beginPath();
     ctx.moveTo(25,200);
     ctx.lineTo(200,375);
@@ -25,15 +128,15 @@ var intervalID = window.setInterval(getScores, 5000);
 
     //bases
     ctx.save();
-	makeBase(ctx);
+	makeBase(ctx, base3rd);
 	ctx.translate(320,0);
-	makeBase(ctx);
+	makeBase(ctx, base1st);
 	ctx.translate(-160,-160);
-	makeBase(ctx);
+	makeBase(ctx, base2nd);
 	ctx.restore();
 
 	//homeplate
-	ctx.fillStyle = "rgb(255,255,255)";
+	ctx.fillStyle = "rgb(255,255,255)"; //white
  	ctx.beginPath();
     ctx.moveTo(200,400);
     ctx.lineTo(160,360);
@@ -41,36 +144,7 @@ var intervalID = window.setInterval(getScores, 5000);
     ctx.lineTo(240,330);
     ctx.lineTo(240,360);
     ctx.fill();
-
-    //outs
- 	ctx.fillStyle = "rgb(255,0,30)";
-	ctx.beginPath();
-	ctx.arc(170, 170, 20, 0, 2 * Math.PI);
-	ctx.fill();
-
-		ctx.beginPath();
-	ctx.arc(230, 170, 20, 0, 2 * Math.PI);
-	ctx.fill();
-
-
- };
-
-function makeBase (ctx){
-	//base
-	ctx.fillStyle = "rgb(255,255,255)";
-	ctx.beginPath();
-    ctx.moveTo(0,200);
-    ctx.lineTo(40,160);
-    ctx.lineTo(80,200);
-    ctx.lineTo(40,240);
-    ctx.fill();
-    //base "light"
-    ctx.beginPath();
-    ctx.fillStyle = "rgb(0,0,255)";
-	ctx.arc(39, 200, 20, 0, 2 * Math.PI);
-	ctx.fill();
 }
-
 
 function getScores() {
 	var xhttp = new XMLHttpRequest();
@@ -99,7 +173,7 @@ function getScores() {
 	xhttp.send();
 	var indx = -1; //default value for the team we want, -1 means the team wasn't found.
 
-	var team = "nya"; //default will be yankees but for web version we can make a pulldown for all teams. this value will go here.
+	var team = "pit"; //default will be yankees but for web version we can make a pulldown for all teams. this value will go here.
 
 	xhttp.onreadystatechange = function() { //listen for the state change
 		if (xhttp.readyState == 4 && xhttp.status == 200)  //wait for ready state and 200.
@@ -138,6 +212,7 @@ function getScores() {
 				}
 
 				//build the string ...this will change later, when it is turning pins on and off
+	//keep for now for debugging  -REMOVE LATER
 				txt += "outs: " + outs + "<br>";
 				txt += "Score: " + scoreAway + " : " + scoreHome + "<br>";
 				txt += "inning: " + half + inning + "<br>";
@@ -147,8 +222,70 @@ function getScores() {
 					txt += "base:"		+ bases[i] + "<br>";
 				}
 
+				
+			//turn stuff on and off.
+			
+			//outs
+				//default to off (this will be true for 0 outs, 3 outs and errors, no game, etc.)
+				out1 = outsOff;
+				out2 = outsOff;
+				
+				switch (outs) {
+				case "1":
+					out1 = outsOn;
+					break;
+				case "2":
+					out1 = outsOn;
+					out2 = outsOn;
+					break;
+				}
+				//top or bottom or inning. default to top unless successfully find "B"
+				if(half == "B")
+				{
+					innTop = innOff;
+					innBot = innOn;
+					
+				}
+				else 
+				{
+					innTop = innOn;
+					innBot = innOff;
+				}
+				
+				//innings:
+				inningNum = inning;
+				
+				//check all three bases -
+				//note that the bases can be in any order. so check all three and turn on the ones that are needed. 
+				//default to off
+				base1st = baseOff;
+				base2nd = baseOff;
+				base3rd = baseOff;
+				for(var i = 0; i < bases.length; i++)
+				{
+					switch (bases[i]) {
+						case "1": 
+							base1st = baseOn;
+							break;
+						case "2":
+							base2nd = baseOn;
+							break;
+						case "3":
+							base3rd = baseOn;
+							break;
+					}
+				}
+				
+				//scores:
+				scoreAwayNum = scoreAway;
+				scoreHomeNum = scoreHome;
+				
+				
 				//update the html with the data we got.
 				document.getElementById("scores").innerHTML = txt;
+				
+				//redraw the field with the correct values;
+				drawField();
 			}
 			else
 			{

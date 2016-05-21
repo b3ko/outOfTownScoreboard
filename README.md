@@ -20,11 +20,12 @@ at least there are options.
   - ~~logic to get game data~~
   - digital mock up:
 	- ~~create field~~
-	- "wire" the "leds" up
-	- add inning and "half" lights
-	- add score digits
-	- wire up the innings
-	- wire up the score
+	- ~~"wire" the "leds" up~~
+	- ~~add inning and "half" lights~~
+	- ~~add score digits~~
+	- ~~wire up the innings~~
+	- ~~wire up the score~~
+	- test
 
 - bug fixes: 
 	- games go past midnight - adjust date logic so "today's games" go to 4 in the morning.
