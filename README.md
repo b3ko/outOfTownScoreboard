@@ -25,9 +25,18 @@ at least there are options.
 	- ~~add score digits~~
 	- ~~wire up the innings~~
 	- ~~wire up the score~~
-	- ~~test~~
+	- ~~add drop down for teams~~
+	- ~~wire up drop down~~
+	- add logic to show game statuses for games not in progress (in the inning box) F = final, P = posponed, D = Delayed, S = Scheduled, etc
 
-- bug fixes: 
-	- games go past midnight - adjust date logic so "today's games" goes to 4 in the morning.  -- updated needs to be tested.
+- to be tested during a game:
+	- does the team drop down logic work (seems to be stepping through code)
+	- does the interval still work now that i moved things around
+	- does the after midnight logic work - day time logic seems to work - needs to be tested after midnight
+	- switching bewteen games while games are live?
+	- switching between live game and a scheduled game, visa-versa.
+
+- bug fixes:
+	- ~~games go past midnight - adjust date logic so "today's games" goes to 4 in the morning.~~
 
 

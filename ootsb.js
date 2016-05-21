@@ -21,11 +21,15 @@ var scoreAwayNum = "-";
 var scoreHomeNum = "-"
 
 //init the field and all values.
-drawField();
-getScores();
-
-//refresh every 5 second
-var intervalID = window.setInterval(getScores, 5000);
+var intervalID;
+var t = document.getElementById("teams"); //the team select list
+var team = "";
+$( "#teams" ).change(function() {
+	team = t.options[t.selectedIndex].value; //grab the team on change
+	//refresh every 5 second
+	drawField();
+	intervalID = window.setInterval(getScores, 5000);
+});
 
 /****
 this funciton will draw the entire field and set all the values
@@ -179,8 +183,6 @@ function getScores() {
 	xhttp.send();
 	var indx = -1; //default value for the team we want, -1 means the team wasn't found.
 
-	var team = "pit"; //default will be yankees but for web version we can make a pulldown for all teams. this value will go here.
-
 	xhttp.onreadystatechange = function() { //listen for the state change
 		if (xhttp.readyState == 4 && xhttp.status == 200)  //wait for ready state and 200.
 		{
@@ -215,17 +217,6 @@ function getScores() {
 				if (x[indx].children[8])
 				{
 					bases[2] = x[indx].children[8].attributes.base.value;
-				}
-
-				//build the string ...this will change later, when it is turning pins on and off
-	//keep for now for debugging  -REMOVE LATER
-				txt += "outs: " + outs + "<br>";
-				txt += "Score: " + scoreAway + " : " + scoreHome + "<br>";
-				txt += "inning: " + half + inning + "<br>";
-				//loop through the bases and add to string
-				for(var i = 0; i < bases.length; i++)
-				{
-					txt += "base:"		+ bases[i] + "<br>";
 				}
 
 			//turn stuff on and off.
@@ -283,17 +274,12 @@ function getScores() {
 				scoreAwayNum = scoreAway;
 				scoreHomeNum = scoreHome;
 
-
-				//update the html with the data we got.
-				document.getElementById("scores").innerHTML = txt;
-
 				//redraw the field with the correct values;
 				drawField();
 			}
 			else
 			{
 				//game was not found - kill the interval
-				document.getElementById("scores").innerHTML = "no games";
 				clearInterval(intervalID);
 			}
 		}
