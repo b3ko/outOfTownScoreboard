@@ -25,9 +25,9 @@ at least there are options.
 	- ~~add score digits~~
 	- ~~wire up the innings~~
 	- ~~wire up the score~~
-	- test
+	- ~~test~~
 
 - bug fixes: 
-	- games go past midnight - adjust date logic so "today's games" go to 4 in the morning.
+	- games go past midnight - adjust date logic so "today's games" goes to 4 in the morning.  -- updated needs to be tested.
 
 

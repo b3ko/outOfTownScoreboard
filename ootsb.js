@@ -20,7 +20,6 @@ var inningNum = "-";
 var scoreAwayNum = "-";
 var scoreHomeNum = "-"
 
-
 //init the field and all values.
 drawField();
 getScores();
@@ -37,9 +36,9 @@ global variables will be updated by the getScores funciton.
 	var canvas = document.getElementById('diamond');
 	var ctx = canvas.getContext('2d');
 	drawStaticParts(ctx);
-	
+
     //outs - one out
- 	ctx.fillStyle = out1;
+	ctx.fillStyle = out1;
 	ctx.beginPath();
 	ctx.arc(170, 170, 20, 0, 2 * Math.PI);
 	ctx.fill();
@@ -60,31 +59,30 @@ global variables will be updated by the getScores funciton.
 	ctx.beginPath();
 	ctx.arc(475, 350, 22, 0, 2 * Math.PI); //bottom
 	ctx.fill();
-	
+
 	//inning half - top
 	ctx.fillStyle = innTop;
 	ctx.beginPath();
 	ctx.arc(475, 50, 20, 0, 2 * Math.PI);
 	ctx.fill();
-	// bottom 
+	// bottom
 	ctx.fillStyle = innBot;
 	ctx.beginPath();
 	ctx.arc(475, 350, 20, 0, 2 * Math.PI);
 	ctx.fill();
-	
-	
+
 	//score:
 	ctx.fillStyle = "rgb(10,10,10)"; //boxes
 	//away
 	ctx.fillRect(550, 25, 225,170);
 	//home
 	ctx.fillRect(550, 200, 225,170);
-	
+
 	//inning
 	ctx.font = "150px sans-serif";
 	ctx.fillStyle = "yellow"; //numbers
 	ctx.fillText(inningNum, 435, 250);
-	
+
 	//score away
 	ctx.fillText(scoreAwayNum, 625, 160);
 	//score home
@@ -100,7 +98,7 @@ function makeBase (ctx, baseColor){
     ctx.lineTo(80,200);
     ctx.lineTo(40,240);
     ctx.fill();
-	
+
     //base "light"
     ctx.beginPath();
     ctx.fillStyle = baseColor;
@@ -137,7 +135,7 @@ function drawStaticParts(ctx) {
 
 	//homeplate
 	ctx.fillStyle = "rgb(255,255,255)"; //white
- 	ctx.beginPath();
+	ctx.beginPath();
     ctx.moveTo(200,400);
     ctx.lineTo(160,360);
     ctx.lineTo(160,330);
@@ -154,6 +152,14 @@ function getScores() {
 	var day = today.getDate();
 	var month = today.getMonth() + 1;
 	var year = today.getUTCFullYear();
+	var time = today.getHours();
+
+	//if games run in to midnight we will subtract a day so the file remains the same as before midnight.
+	//i am just looking to see if the time is between midnight and 6 am (since there are no games that start that early and if so, go back to last night)
+	if (time >= 0 && time <= 6)
+	{
+		day--;
+	}
 
 	//if the day or month is less than 10 add the leading zero
 	if(day < 10)
@@ -222,14 +228,12 @@ function getScores() {
 					txt += "base:"		+ bases[i] + "<br>";
 				}
 
-				
 			//turn stuff on and off.
-			
 			//outs
 				//default to off (this will be true for 0 outs, 3 outs and errors, no game, etc.)
 				out1 = outsOff;
 				out2 = outsOff;
-				
+
 				switch (outs) {
 				case "1":
 					out1 = outsOn;
@@ -244,19 +248,18 @@ function getScores() {
 				{
 					innTop = innOff;
 					innBot = innOn;
-					
 				}
-				else 
+				else
 				{
 					innTop = innOn;
 					innBot = innOff;
 				}
-				
+
 				//innings:
 				inningNum = inning;
-				
+
 				//check all three bases -
-				//note that the bases can be in any order. so check all three and turn on the ones that are needed. 
+				//note that the bases can be in any order. so check all three and turn on the ones that are needed.
 				//default to off
 				base1st = baseOff;
 				base2nd = baseOff;
@@ -264,7 +267,7 @@ function getScores() {
 				for(var i = 0; i < bases.length; i++)
 				{
 					switch (bases[i]) {
-						case "1": 
+						case "1":
 							base1st = baseOn;
 							break;
 						case "2":
@@ -275,15 +278,15 @@ function getScores() {
 							break;
 					}
 				}
-				
+
 				//scores:
 				scoreAwayNum = scoreAway;
 				scoreHomeNum = scoreHome;
-				
-				
+
+
 				//update the html with the data we got.
 				document.getElementById("scores").innerHTML = txt;
-				
+
 				//redraw the field with the correct values;
 				drawField();
 			}
