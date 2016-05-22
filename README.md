@@ -1,4 +1,4 @@
-# [http://www.atownrobots.com/outOfTownScoreboard/] (out of town scoreboard)
+#  [out of town scoreboard] (http://www.atownrobots.com/outOfTownScoreboard/)
 
 Out of town scoreboard will be a physical device that shows one team's score while a game is happening.
 It is based off of the [out of town scoreboard at PNC park in pittsburgh] (https://pbs.twimg.com/media/Ci0-QtrVEAECZS2.jpg:large).
