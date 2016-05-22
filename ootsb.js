@@ -60,25 +60,25 @@ global variables will be updated by the getScores funciton.
 
 	//innings:
 	ctx.fillStyle = "rgb(10,10,10)";
-	ctx.fillRect(410, 100, 130,200);
+	ctx.fillRect(414, 100, 130,200);
 	//borders (inning half)
 	ctx.fillStyle = "rgb(50,50,50)";
 	ctx.beginPath();
-	ctx.arc(475, 50, 22, 0, 2 * Math.PI); //top
+	ctx.arc(479, 50, 22, 0, 2 * Math.PI); //top
 	ctx.fill();
 	ctx.beginPath();
-	ctx.arc(475, 350, 22, 0, 2 * Math.PI); //bottom
+	ctx.arc(479, 350, 22, 0, 2 * Math.PI); //bottom
 	ctx.fill();
 
 	//inning half - top
 	ctx.fillStyle = innTop;
 	ctx.beginPath();
-	ctx.arc(475, 50, 20, 0, 2 * Math.PI);
+	ctx.arc(479, 50, 20, 0, 2 * Math.PI);
 	ctx.fill();
 	// bottom
 	ctx.fillStyle = innBot;
 	ctx.beginPath();
-	ctx.arc(475, 350, 20, 0, 2 * Math.PI);
+	ctx.arc(479, 350, 20, 0, 2 * Math.PI);
 	ctx.fill();
 
 	//score:
@@ -91,7 +91,7 @@ global variables will be updated by the getScores funciton.
 	//inning
 	ctx.font = "150px sans-serif";
 	ctx.fillStyle = "yellow"; //numbers
-	ctx.fillText(inningNum, 435, 250);
+	ctx.fillText(inningNum, 439, 250);
 
 	//score away
 	ctx.fillText(scoreAwayNum, 623, 160);
@@ -100,8 +100,8 @@ global variables will be updated by the getScores funciton.
 
 	//team names
 	ctx.fillStyle = "rgb(10,10,10)";
-	ctx.fillRect(785, 25, 450, 170);
-	ctx.fillRect(785, 200, 450,170);
+	ctx.fillRect(781, 25, 450, 170);
+	ctx.fillRect(781, 200, 450,170);
 	ctx.fillStyle = "yellow";
 	ctx.font = "72px sans-serif";
 	ctx.fillText(teamAway, 800, 130);
