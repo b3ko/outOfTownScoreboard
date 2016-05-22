@@ -32,7 +32,7 @@ at least there are options.
 - to be tested during a game:
 	- ~~does the team drop down logic work (seems to be stepping through code)~~
 	- ~~does the interval still work now that i moved things around~~ - fixed
-	- does the after midnight logic work - day time logic seems to work - needs to be tested after midnight
+	- ~~does the after midnight logic work - day time logic seems to work - needs to be tested after midnight~~
 	- ~~switching bewteen games while games are live?~~fixed
 	- ~~switching between live game and a scheduled game, visa-versa.~~
 
