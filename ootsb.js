@@ -1,10 +1,10 @@
 //color variables
-var outsOn = "rgba(255,0,0,1)";
-var outsOff = "rgba(255,0,0,.3)";
-var innOn = "rgba(40,255,0,1)";
-var innOff = "rgba(67,217,105,.3)";
-var baseOn  = "rgba(0,0,255,1)";
-var baseOff = "rgba(0,0,255,.3)";
+var outsOn = "rgb(255,0,0)";
+var outsOff = "rgb(100,0,0)";
+var innOn = "rgb(40,255,0)";
+var innOff = "rgb(00,100,0)";
+var baseOn  = "rgb(25,25,255)";
+var baseOff = "rgb(0,0,100)";
 
 //elements - these are what will be updated by the code - these parameters are what the code will use to set the "LED" states
 var out1 = outsOff;
@@ -28,6 +28,10 @@ $( "#teams" ).change(function() {
 	team = t.options[t.selectedIndex].value; //grab the team on change
 	//refresh every 5 second
 	drawField();
+	if(intervalID)
+	{
+		clearInterval(intervalID);
+	}
 	intervalID = window.setInterval(getScores, 5000);
 });
 
@@ -88,9 +92,9 @@ global variables will be updated by the getScores funciton.
 	ctx.fillText(inningNum, 435, 250);
 
 	//score away
-	ctx.fillText(scoreAwayNum, 625, 160);
+	ctx.fillText(scoreAwayNum, 623, 160);
 	//score home
-	ctx.fillText(scoreHomeNum, 625, 340);
+	ctx.fillText(scoreHomeNum, 623, 340);
  };
 
 function makeBase (ctx, baseColor){
@@ -188,7 +192,9 @@ function getScores() {
 		{
 			xmlDoc = xhttp.responseXML;
 			txt = "";
-			x = xmlDoc.getElementsByTagName("ig_game"); //grab the game elements
+			//x = xmlDoc.getElementsByTagName("ig_game"); //grab the game elements
+			var p = xmlDoc.getElementsByTagName("scoreboard");
+			x = p[0].children; //grab the game elements
 
 			for (i = 0; i < x.length; i++) //loop through the games until we get the game we want]
 			{
@@ -198,76 +204,91 @@ function getScores() {
 
 			if(indx >= 0) { //did we find the team we wanted, if so proceed
 				//get all the needed values
-				var outs = x[indx].attributes.outs.value;
-				var scoreAway = x[indx].children[1].children[0].attributes.R.value;
-				var scoreHome = x[indx].children[2].children[0].attributes.R.value;
-				var inning = x[indx].children[3].attributes.inning.value;
-				var half = x[indx].children[3].attributes.half.value;
-
-				//there can be up to 3 bases tags. manually check for each
-				var bases = [];
-				if (x[indx].children[6])
+				var scoreHome = x[indx].children[1].children[0].attributes.R.value;
+				var scoreAway = x[indx].children[2].children[0].attributes.R.value;
+				var status = x[indx].children[0].attributes.status.value;
+				if(status == "IN_PROGRESS")
 				{
-					bases[0] = x[indx].children[6].attributes.base.value;
-				}
-				if (x[indx].children[7])
-				{
-					bases[1] = x[indx].children[7].attributes.base.value;
-				}
-				if (x[indx].children[8])
-				{
-					bases[2] = x[indx].children[8].attributes.base.value;
-				}
-
-			//turn stuff on and off.
-			//outs
-				//default to off (this will be true for 0 outs, 3 outs and errors, no game, etc.)
-				out1 = outsOff;
-				out2 = outsOff;
-
-				switch (outs) {
-				case "1":
-					out1 = outsOn;
-					break;
-				case "2":
-					out1 = outsOn;
-					out2 = outsOn;
-					break;
-				}
-				//top or bottom or inning. default to top unless successfully find "B"
-				if(half == "B")
-				{
-					innTop = innOff;
-					innBot = innOn;
-				}
-				else
-				{
-					innTop = innOn;
-					innBot = innOff;
-				}
-
-				//innings:
-				inningNum = inning;
-
-				//check all three bases -
-				//note that the bases can be in any order. so check all three and turn on the ones that are needed.
-				//default to off
-				base1st = baseOff;
-				base2nd = baseOff;
-				base3rd = baseOff;
-				for(var i = 0; i < bases.length; i++)
-				{
-					switch (bases[i]) {
-						case "1":
-							base1st = baseOn;
-							break;
-						case "2":
-							base2nd = baseOn;
-							break;
-						case "3":
-							base3rd = baseOn;
-							break;
+					var outs = x[indx].attributes.outs.value;
+					var inning = x[indx].children[3].attributes.inning.value;
+					var half = x[indx].children[3].attributes.half.value;
+					//there can be up to 3 bases tags. manually check for each
+					var bases = [];
+					if (x[indx].children[6])
+					{
+						bases[0] = x[indx].children[6].attributes.base.value;
 					}
+					if (x[indx].children[7])
+					{
+						bases[1] = x[indx].children[7].attributes.base.value;
+					}
+					if (x[indx].children[8])
+					{
+						bases[2] = x[indx].children[8].attributes.base.value;
+					}
+
+					//turn stuff on and off.
+					//outs
+					//default to off (this will be true for 0 outs, 3 outs and errors, no game, etc.)
+					out1 = outsOff;
+					out2 = outsOff;
+
+					switch (outs) {
+					case "1":
+						out1 = outsOn;
+						break;
+					case "2":
+						out1 = outsOn;
+						out2 = outsOn;
+						break;
+					}
+					//top or bottom or inning. default to top unless successfully find "B"
+					if(half == "B")
+					{
+						innTop = innOff;
+						innBot = innOn;
+					}
+					else
+					{
+						innTop = innOn;
+						innBot = innOff;
+					}
+
+					//innings:
+					inningNum = inning;
+
+					//check all three bases -
+					//note that the bases can be in any order. so check all three and turn on the ones that are needed.
+					//default to off
+					base1st = baseOff;
+					base2nd = baseOff;
+					base3rd = baseOff;
+					for(var i = 0; i < bases.length; i++)
+					{
+						switch (bases[i]) {
+							case "1":
+								base1st = baseOn;
+								break;
+							case "2":
+								base2nd = baseOn;
+								break;
+							case "3":
+								base3rd = baseOn;
+								break;
+						}
+					}
+				}
+				else if (status == "FINAL" || status == "GAME_OVER")
+				{
+					inningNum = "F";
+					clear();
+				}
+
+				else if (status == "PRE_GAME")
+				{
+					inningNum = "-";
+					clear();
+
 				}
 
 				//scores:
@@ -285,3 +306,15 @@ function getScores() {
 		}
 	}
 };
+
+
+function clear() {
+	out1 = outsOff;
+	out2 = outsOff;
+	base1st = baseOff;
+	base2nd = baseOff;
+	base3rd = baseOff;
+	innTop = innOff;
+	innBot = innOff;
+	clearInterval(intervalID);
+}
