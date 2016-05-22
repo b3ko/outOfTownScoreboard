@@ -14,6 +14,8 @@ var innBot = innOff;
 var base1st = baseOff;
 var base2nd = baseOff;
 var base3rd = baseOff;
+var teamHome = "";
+var teamAway = "";
 
 //for all the digits. physical version will need to be slightly different depending on what type of digit display used.
 var inningNum = "-";
@@ -95,6 +97,15 @@ global variables will be updated by the getScores funciton.
 	ctx.fillText(scoreAwayNum, 623, 160);
 	//score home
 	ctx.fillText(scoreHomeNum, 623, 340);
+
+	//team names
+	ctx.fillStyle = "rgb(10,10,10)";
+	ctx.fillRect(785, 25, 450, 170);
+	ctx.fillRect(785, 200, 450,170);
+	ctx.fillStyle = "yellow";
+	ctx.font = "72px sans-serif";
+	ctx.fillText(teamAway, 800, 130);
+	ctx.fillText(teamHome, 800, 310);
  };
 
 function makeBase (ctx, baseColor){
@@ -206,6 +217,9 @@ function getScores() {
 				//get all the needed values
 				var scoreHome = x[indx].children[1].children[0].attributes.R.value;
 				var scoreAway = x[indx].children[2].children[0].attributes.R.value;
+				teamHome = x[indx].children[1].attributes.name.value;
+				teamAway = x[indx].children[2].attributes.name.value;
+
 				var status = x[indx].children[0].attributes.status.value;
 				if(status == "IN_PROGRESS")
 				{
