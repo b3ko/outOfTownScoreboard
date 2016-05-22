@@ -27,14 +27,14 @@ at least there are options.
 	- ~~wire up the score~~
 	- ~~add drop down for teams~~
 	- ~~wire up drop down~~
-	- add logic to show game statuses for games not in progress (in the inning box) F = final, P = posponed, D = Delayed, S = Scheduled, etc
+	- ~~add logic to show game statuses for games not in progress (in the inning box) F = final, P = posponed, D = Delayed, S = Scheduled, etc~~
 
 - to be tested during a game:
-	- does the team drop down logic work (seems to be stepping through code)
-	- does the interval still work now that i moved things around
+	- ~~does the team drop down logic work (seems to be stepping through code)~~
+	- ~~does the interval still work now that i moved things around~~ - fixed
 	- does the after midnight logic work - day time logic seems to work - needs to be tested after midnight
-	- switching bewteen games while games are live?
-	- switching between live game and a scheduled game, visa-versa.
+	- ~~switching bewteen games while games are live?~~fixed
+	- ~~switching between live game and a scheduled game, visa-versa.~~
 
 - bug fixes:
 	- ~~games go past midnight - adjust date logic so "today's games" goes to 4 in the morning.~~

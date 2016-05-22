@@ -60,7 +60,7 @@ global variables will be updated by the getScores funciton.
 	ctx.fillStyle = "rgb(10,10,10)";
 	ctx.fillRect(410, 100, 130,200);
 	//borders (inning half)
-	ctx.fillStyle = "rgba(100,100,100,.3)";
+	ctx.fillStyle = "rgb(50,50,50)";
 	ctx.beginPath();
 	ctx.arc(475, 50, 22, 0, 2 * Math.PI); //top
 	ctx.fill();
