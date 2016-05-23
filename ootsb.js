@@ -298,11 +298,20 @@ function getScores() {
 					clear();
 				}
 
-				else if (status == "PRE_GAME")
+				else if (status == "PRE_GAME" || status == "IMMEDIATE_PREGAME")
 				{
 					inningNum = "-";
 					clear();
 
+				}
+				else if (status == "DELAYED")
+				{
+					inningNum = "D";
+				}
+				else if (status == "OTHER") //rain, or "Force Play?, possibly others, so just show the first letter."
+				{
+					var c = x[indx].children[0].children[0].innerHTML;
+					inningNum = c[0];
 				}
 
 				//scores:
